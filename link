@@ -1,0 +1,8 @@
+#!/bin/sh
+
+FILES=vim
+
+dir=$(dirname $0)
+for i in $FILES; do 
+  ln -s $dir/$i ./.$i
+done

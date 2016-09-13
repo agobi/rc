@@ -1,0 +1,9 @@
+[submodule "vim/bundle/securemodelines"]
+	path = vim/bundle/securemodelines
+	url = git@github.com:ciaranm/securemodelines.git
+[submodule "vim/bundle/srcery"]
+	path = vim/bundle/srcery
+	url = git@github.com:roosta/srcery.git
+[submodule "vim/bundle/syntastic"]
+	path = vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git

@@ -1,0 +1,388 @@
+" vimrc (c) Attila Gobi, 2016
+"
+" Based on 
+" http://vim.wikia.com/wiki/Example_vimrc
+" https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup
+" https://amix.dk/vim/vimrc.html
+" https://github.com/garybernhardt/dotfiles/blob/master/.vimrc
+" 
+"------------------------------------------------------------
+" Load plugins {{{1
+
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+execute pathogen#infect()
+
+"------------------------------------------------------------
+" Features {{{1
+"
+" These options and commands enable some very useful features in Vim, that
+" no user should have to live without.
+
+" Set 'nocompatible' to ward off unexpected things that your distro might
+" have made, as well as sanely reset options when re-sourcing .vimrc
+set nocompatible
+
+" Attempt to determine the type of a file based on its name and possibly its
+" contents. Use this to allow intelligent auto-indenting for each filetype,
+" and for plugins that are filetype specific.
+filetype indent plugin on
+
+" Enable syntax highlighting
+syntax on
+
+"------------------------------------------------------------
+" Must have options {{{1
+"
+" These are highly recommended options.
+ 
+" Vim with default settings does not allow easy switching between multiple files
+" in the same editor window. Users can use multiple split windows or multiple
+" tab pages to edit multiple files, but it is still best to enable an option to
+" allow easier switching between files.
+"
+" One such option is the 'hidden' option, which allows you to re-use the same
+" window and switch from an unsaved buffer without saving it first. Also allows
+" you to keep an undo history for multiple files when re-using the same window
+" in this way. Note that using persistent undo also lets you undo in multiple
+" files even in the same window, but is less efficient and is actually designed
+" for keeping undo history after closing Vim entirely. Vim will complain if you
+" try to quit without saving, and swap files will keep you safe if your computer
+" crashes.
+set hidden
+
+" Note that not everyone likes working this way (with the hidden option).
+" Alternatives include using tabs or split windows instead of re-using the same
+" window as mentioned above, and/or either of the following options:
+" set confirm
+" set autowriteall
+
+" Better command-line completion
+set wildmenu
+
+" Show partial commands in the last line of the screen
+set showcmd
+
+" Suffixes that get lower priority when doing tab completion for filenames.
+" These are files we are not likely to want to edit or read.
+set suffixes=.bak,~,.o,.info,.swp,.obj,
+  \.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+  \.class,.map
+
+" Completely igonore these extensions during tag completion
+set wildignore=.o,.obj,.class
+
+" Highlight searches (use <C-L> to temporarily turn off highlighting; see the
+" mapping of <C-L> below)
+set hlsearch
+
+" While typing a search command, show where the pattern, as it was typed so far,
+" matches. 
+set incsearch
+
+" Modelines have historically been a source of security vulnerabilities. As
+" such, it may be a good idea to disable them and use the securemodelines
+" script, <http://www.vim.org/scripts/script.php?script_id=1876>.
+set nomodeline
+
+"------------------------------------------------------------
+" Usability options {{{1
+"
+" These are options that users frequently set in their .vimrc. Some of them
+" change Vim's behaviour in ways which deviate from the true Vi way, but
+" which are considered to add usability. Which, if any, of these options to
+" use is very much a personal preference, but they are harmless.
+
+" Use case insensitive search, except when using capital letters
+"set ignorecase
+"set smartcase
+
+" Set <Leader> to ','
+let mapleader = ","
+
+" Allow backspacing over autoindent, line breaks and start of insert action
+set backspace=indent,eol,start
+
+" When opening a new line and no filetype-specific indenting is enabled, keep
+" the same indent as the line you're currently on. Useful for READMEs, etc.
+set autoindent
+
+" Stop certain movements from always going to the first character of a line.
+" While this behaviour deviates from that of Vi, it does what most users
+" coming from other editors would expect.
+set nostartofline
+
+" Display the cursor position on the last line of the screen or in the status
+" line of a window
+" I am wondering if it has any effect, when I have my own statusline...
+set ruler 
+
+" Always display the status line, even if only one window is displayed
+set laststatus=2
+
+" Show mode
+set showmode
+
+" Instead of failing a command because of unsaved changes, instead raise a
+" dialogue asking if you wish to save changed files.
+set confirm
+
+" Automatically save before commands like :next and :make, but not for quit,
+" edit, etc
+set autowrite
+
+" Use visual bell instead of beeping when doing something wrong
+set visualbell
+
+" And reset the terminal code for the visual bell. If visualbell is set, and
+" this line is also included, vim will neither flash nor beep. If visualbell
+" is unset, this does nothing.
+"set t_vb=
+
+" Enable use of the mouse for all modes
+set mouse=a
+
+" Set the command window height to 2 lines, to avoid many cases of having to
+" "press <Enter> to continue"
+set cmdheight=2
+
+" Display line numbers on the left
+set number
+
+" Quickly time out on keycodes, but never time out on mappings
+set notimeout ttimeout ttimeoutlen=200
+
+" Use <Leader>p to toggle between 'paste' and 'nopaste'
+set pastetoggle=<Leader>p
+
+" Break line after 80 characters
+set textwidth=80
+
+" Wrap long lines
+set wrap
+
+" Set how many lines are visible before and after the cursor
+set scrolloff=5
+
+"------------------------------------------------------------
+" Indentation options {{{1
+"
+" Indentation settings according to personal preference.
+
+" Indentation settings for using 4 spaces instead of tabs.
+" Do not change 'tabstop' from its default value of 8 with this setup.
+"set shiftwidth=4
+"set softtabstop=4
+set expandtab
+
+" Indentation settings for using hard tabs for indent. Display tabs as
+" two characters wide.
+set shiftwidth=2
+set tabstop=2
+
+" More intelligent autoformat
+" j: delete comment leader when joining lines
+" l: do not wrap if the line was long before the edit
+set formatoptions+=jl
+
+"------------------------------------------------------------
+" Mappings {{{1
+"
+" Useful mappings
+
+" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
+" which is the default
+map Y y$
+
+" Map <C-L> (redraw screen) to also turn off search highlighting until the
+" next search
+nnoremap <C-L> :nohl<CR><C-L>
+
+nmap <F2>   :w<CR>
+map! <F2>   <C-O><F2>
+nmap <S-F6> :bprevious<CR>
+map! <S-F6> <C-O><S-F6>
+nmap <F6>   :bnext<CR>
+map! <F6>   <C-O><F6>
+nmap <F9>   :make<CR>
+map! <F9>   <C-O><F9>
+nmap <M-DOWN> :cn<CR>
+map! <M-DOWN> <C-O><M-DOWN>
+nmap <M-UP> :cp<CR>
+map! <M-UP> <C-O><M-UP>
+map <space> za
+
+" Toggle wrap using -S (like in less)
+map -S :wrap!
+
+" Disable cursor for educational purposes 
+map <Left> <Nop>
+map <Right> <Nop>
+map <Up> <Nop>
+map <Down> <Nop>
+
+map <Leader>v :e ~/.vim/vimrc<CR>
+
+"------------------------------------------------------------
+" Editing history {{{1
+
+" read/write a .viminfo file
+" 1000 last files, save global marks, save buffers
+" don't store more than 50 lines of registers
+set viminfo='1000,f1,<50,h
+
+" keep 50 lines of command line history
+set history=50
+
+" Use persistent undo
+if has('persistent_undo')
+    " Save all undo files in a single location (less messy, more risky)...
+    set undodir=$HOME/.VIM_UNDO_FILES
+
+    " Save a lot of back-history...
+    set undolevels=5000
+
+    " Actually switch on persistent undo
+    set undofile
+
+endif
+
+" Goto last location in non-empty files except for git commit messages
+augroup autoPosition
+    autocmd!
+    autocmd BufReadPost *  if line("'\"") > 1 && line("'\"") <= line("$") && &ft != "gitcommit"
+                       \|     exe "normal! g`\""
+                       \|  endif
+augroup END
+
+
+"------------------------------------------------------------
+" Colors / Status bar / Highlights {{{1
+
+" Optimize for dark background
+set background=dark
+
+" A fancy statusbar
+set statusline=   " clear the statusline for when vimrc is reloaded
+"set statusline+=[%n/%{len(filter(range(1,bufnr('$')),'buflisted(v:val)'))}] " buffer number
+set statusline+=%-3.(%n%{&mod?'+':'\ '}%)     " Flag if modified
+set statusline+=%f\                          " file name
+set statusline+=%h%r%w                     " flags
+set statusline+=[%{strlen(&ft)?&ft:'none'}   " filetype
+set statusline+=%{Fenc()}]                   " encoding
+set statusline+=%=                           " right align
+set statusline+=%-8.8{&fo}                   " Show text wrap
+"set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}\  " highlight
+set statusline+=%3.3b/0x%-4B\                   " current char
+set statusline+=%-14.(%l,%c-%v%)\ %<%P        " offset
+
+function! Fenc()
+  let status = ''
+  if &fenc !~ "^$\\|utf-8" || &bomb
+    let status .= ',' . &fenc . (&bomb ? "-bom" : "" )
+  endif
+  if &fileformat !~ "unix"
+    let status .= ','. &fileformat
+  endif
+  return status
+endfunction
+
+" Make naughty characters visible...
+" (uBB is right double angle, uB7 is middle dot)
+exec "set lcs=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+
+augroup VisibleNaughtiness
+  autocmd!
+  autocmd BufEnter  *       set list
+  autocmd BufEnter  *.txt   set nolist
+  autocmd BufEnter  *.vp*   set nolist
+  autocmd BufEnter  *       if !&modifiable
+  autocmd BufEnter  *           set nolist
+  autocmd BufEnter  *       endif
+augroup END
+
+" Highlight long lines
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
+
+" Set window title
+set title titlestring=%{$USER}@%{hostname()}:\ %<%F%=%l/%L-%P titlelen=70
+
+" Comments are important
+"highlight Comment term=bold ctermfg=:wq
+
+" Number of colors
+set t_Co=256
+color srcery
+
+"------------------------------------------------------------
+" Language properties {{{1
+
+" vimrc  {{{2
+augroup vimrc_help 
+  autocmd!
+  " Use :help instead of man for key K
+  autocmd FileType vim set keywordprg=:help
+  " Reload .vimrc after save
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
+
+" Automatic include guards in C/C++ headers {{{2
+augroup autoGuard
+  autocmd!
+
+  function! s:insert_gates()
+    let gatename = substitute(toupper(expand("%:t")), "\\.", "_", "g")
+    execute "normal! i#ifndef " . gatename
+    execute "normal! o#define " . gatename . "\n\n"
+    execute "normal! Go#endif//" . gatename
+    normal! kk
+  endfunction
+  autocmd BufNewFile *.{h,hpp} call <SID>insert_gates()
+augroup END
+
+
+" Syntastic {{{2
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+" }}}
+
+"------------------------------------------------------------
+" Unchecked 
+" Check this: https://amix.dk/vim/vimrc.html
+:dig [[ 10214
+:dig ]] 10215
+:dig nn 8469
+
+autocmd FileType c,cpp,java,python autocmd BufWritePre <buffer> :%s/\s\+$//e
+
+"function! IndentNamespace()
+"  let l:cline_num = line('.')
+"  let l:pline_num = prevnonblank(l:cline_num - 1)
+"  let l:pline = getline(l:pline_num)
+"  let l:retv = cindent('.')
+"  while l:pline =~# '\(^\s*{\s*\|^\s*//\|^\s*/\*\|\*/\s*$\)'
+"    let l:pline_num = prevnonblank(l:pline_num - 1)
+"    let l:pline = getline(l:pline_num)
+"  endwhile
+"  if l:pline =~# '^\s*namespace.*'
+"    let l:retv = 0
+"  endif
+"  return l:retv
+"endfunction
+"setlocal indentexpr=IndentNamespace()
+
+" http://vim.wikia.com/wiki/A_better_Vimdiff_Git_mergetool
+" https://github.com/tpope/vim-fugitive
+" https://github.com/airblade/vim-gitgutter
+
+" vim: set foldmethod=marker
