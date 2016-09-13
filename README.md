@@ -1,1 +1,4 @@
 # RC files
+
+ - vim
+ - hammerspoon
