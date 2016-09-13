@@ -1,8 +1,12 @@
 #!/bin/sh
 
-FILES=vim
+FILES="vim hammerspoon"
 
 dir=$(dirname $0)
 for i in $FILES; do 
-  ln -s $dir/$i ./.$i
+  if [ -e ./.$i ]; then
+     echo "Skipping .$i"
+  else
+    ln -s $dir/$i ./.$i
+  fi
 done
