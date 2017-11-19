@@ -1,0 +1,17 @@
+# Usage kube-resource --context=context --namespace=namespace -l app=app-name
+
+IFS=,
+printf "%35s   MEM  CPU\n" "POD"
+kubectl get pods "$@" -o json | jq -r '.items[]|(.status.hostIP +"," +.metadata.name)' | while read ip pod; do
+  curl -s http://$ip:10255/stats/summary | \
+    jq -r '
+  .pods[] | select(.podRef.name == "'$pod'") | ( 
+    .podRef.name +","+ 
+    (.containers[].memory.workingSetBytes /1024 / 1024 | tostring)  +","+
+    (.containers[].cpu.usageNanoCores / 1000000 | tostring) 
+  )
+' 
+done| while read pod mem cpu; do
+  printf "%35s %4.0fM %.0fm\n" $pod $mem $cpu
+done
+
