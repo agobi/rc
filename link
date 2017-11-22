@@ -1,9 +1,11 @@
 #!/bin/sh
 
-FILES="DOT.vim"
+FILES=DOT.vim \
+  DOT.bashrc \
+  DOT.bash_profile \
+  DOT.bash_logout 
 OSX_FILES="DOT.hammerspoon"
 RECURSIVE="DOT.local/bin"
-PATTERND=
 
 case $(uname -s) in
   Darwin)
