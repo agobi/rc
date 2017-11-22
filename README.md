@@ -2,3 +2,5 @@
 
  - vim
  - hammerspoon
+ - bash
+ - some scripts
