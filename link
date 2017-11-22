@@ -1,12 +1,42 @@
 #!/bin/sh
 
-FILES="vim hammerspoon"
+FILES="DOT.vim"
+OSX_FILES="DOT.hammerspoon"
+RECURSIVE="DOT.local/bin"
+PATTERND=
+
+case $(uname -s) in
+  Darwin)
+    FILES="$FILES $OSX_FILES"
+  ;;
+esac
 
 dir=$(dirname $0)
-for i in $FILES; do 
-  if [ -e ./.$i ]; then
-     echo "Skipping .$i"
+echo "$FILES" | sed 'h;s#DOT.#.#g;H;x;s/\n/ /' | while read from to; do
+  if [ -e ./$to ]; then
+    echo "Skipping $to"
   else
-    ln -s $dir/$i ./.$i
+    ln -s $dir/$from ./$to
+  fi
+done
+
+(
+cd $dir
+for i in "$RECURSIVE"; do
+  find $i -type d
+done
+) | sed 's#DOT.#.#' | xargs mkdir -p
+
+(
+cd $dir
+for i in "$RECURSIVE"; do
+  find $i -type f
+done
+) | sed 'h;s#[^/]##g;s#/#../#g;s#$#'"${dir}"'#;x;H;s#DOT.#.#g;H;x;s#\n#/#;s/\n/ /' |
+  while read from to; do
+  if [ -e $to ]; then
+    echo "Skipping $to"
+  else
+    ln -s $from ./$to
   fi
 done
