@@ -312,7 +312,7 @@ set title titlestring=%{$USER}@%{hostname()}:\ %<%F%=%l/%L-%P titlelen=70
 
 " Number of colors
 set t_Co=256
-color srcery
+color PaperColor
 
 "------------------------------------------------------------
 " Language properties {{{1
