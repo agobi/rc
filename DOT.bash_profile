@@ -1,30 +1,29 @@
-if [ -d ~/bin ]; then
-	PATH=~/bin:"${PATH}"
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# include .bashrc if it exists
+if [ -f "$HOME/.bashrc" ]; then
+. "$HOME/.bashrc"
 fi
 
-if [ -d ~/.cabal/bin ]; then
-	PATH=~/.cabal/bin:"${PATH}"
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
 fi
 
-if [ -d ~/Library/Haskell/bin ]; then
-	PATH=~/Library/Haskell/bin:"${PATH}"
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d ~/man ]; then
+if [ -d ~/.local/man ]; then
     MANPATH=~/man${MANPATH:-:}
     export MANPATH
-fi
-
-if [ -f ~/.bashrc ]; then
-	source ~/.bashrc
-fi
-
-export QSYS_ROOTDIR="/home/gobi/altera_lite/15.1/quartus/sopc_builder/bin"
-
-export ALTERAOCLSDKROOT="/home/gobi/altera_lite/15.1/hld"
-
-# Added by GraphLab Create Launcher v3.0.1
-
-if [ -f ~/.profabevjava ]; then
-  source ~/.profabevjava
 fi

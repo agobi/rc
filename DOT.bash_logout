@@ -1,13 +1,7 @@
-#if [ -n "$SSH_AGENT_PID" -a -f ~/.agent -a `who | grep gwonder | wc -l` == 1 ]; then
-#	PID=$SSH_AGENT_PID
-#	. ~/.agent
-#	if [ $SSH_AGENT_PID == $PID ]; then
-#		eval `ssh-agent -k`
-#		rm ~/.agent
-#	fi
-#fi
+# ~/.bash_logout: executed by bash(1) when login shell exits.
 
-echo Goodbye.
-case `tty` in
-	/dev/ttyv[0-9]) clear
-esac
+# when leaving the console clear the screen to increase privacy
+
+if [ "$SHLVL" = 1 ]; then
+    [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+fi
