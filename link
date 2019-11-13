@@ -1,9 +1,6 @@
 #!/bin/sh
 
-FILES=DOT.vim \
-  DOT.bashrc \
-  DOT.bash_profile \
-  DOT.bash_logout 
+FILES="DOT.vim DOT.bashrc DOT.bash_profile DOT.bash_logout"
 OSX_FILES="DOT.hammerspoon"
 RECURSIVE="DOT.local/bin"
 
@@ -14,7 +11,7 @@ case $(uname -s) in
 esac
 
 dir=$(dirname $0)
-echo "$FILES" | sed 'h;s#DOT.#.#g;H;x;s/\n/ /' | while read from to; do
+echo "$FILES" | tr ' ' '\n' | sed 'h;s#DOT.#.#g;H;x;s/\n/ /' | while read from to; do
   if [ -e ./$to ]; then
     echo "Skipping $to"
   else
@@ -23,14 +20,14 @@ echo "$FILES" | sed 'h;s#DOT.#.#g;H;x;s/\n/ /' | while read from to; do
 done
 
 (
-cd $dir
+cd $dir || exit
 for i in "$RECURSIVE"; do
   find $i -type d
 done
 ) | sed 's#DOT.#.#' | xargs mkdir -p
 
 (
-cd $dir
+cd $dir || exit
 for i in "$RECURSIVE"; do
   find $i -type f
 done
