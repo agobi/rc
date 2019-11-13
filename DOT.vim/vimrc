@@ -7,12 +7,6 @@
 " https://github.com/garybernhardt/dotfiles/blob/master/.vimrc
 " 
 "------------------------------------------------------------
-" Load plugins {{{1
-
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
-
-"------------------------------------------------------------
 " Features {{{1
 "
 " These options and commands enable some very useful features in Vim, that
